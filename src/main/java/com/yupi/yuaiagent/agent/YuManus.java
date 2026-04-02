@@ -4,19 +4,20 @@ import com.yupi.yuaiagent.advisor.MyLoggerAdvisor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.tool.ToolCallback;
+import org.springframework.stereotype.Component;
 
 /**
- * CcxManus AI 超级智能体
- * 注意：不注册为 Spring Bean（去掉 @Component），每次请求由调用方手动 new，
- * 因为每个对话需要独立的状态（messageList、currentStep 等）。
+ * YuManus AI 超级智能体（用于测试和 Spring 注入场景）
+ * 与 CcxManus 逻辑一致，作为 Spring Bean 注入以支持测试用例。
  */
-public class CcxManus extends ToolCallAgent {
+@Component
+public class YuManus extends ToolCallAgent {
 
-    public CcxManus(ToolCallback[] allTools, ChatModel dashscopeChatModel) {
+    public YuManus(ToolCallback[] allTools, ChatModel dashscopeChatModel) {
         super(allTools);
-        this.setName("ccxManus");
+        this.setName("yuManus");
         String SYSTEM_PROMPT = """
-                You are CcxManus, an all-capable AI assistant, aimed at solving any task presented by the user.
+                You are YuManus, an all-capable AI assistant, aimed at solving any task presented by the user.
                 You have various tools at your disposal that you can call upon to efficiently complete complex requests.
                 """;
         this.setSystemPrompt(SYSTEM_PROMPT);

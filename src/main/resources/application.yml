@@ -9,8 +9,8 @@ spring:
     password: 123456
   ai:
     dashscope:
-      # 需要替换为你自己的 key
-      api-key: sk-98008a632a8c4f41995033b0f4d40672
+      # 从环境变量读取，启动时设置：export DASHSCOPE_API_KEY=sk-xxx
+      api-key: ${DASHSCOPE_API_KEY}
       chat:
         options:
           model: qwen-max
@@ -24,27 +24,28 @@ spring:
       port: 6379
       database: 0
       timeout: 5s
-# 临时注释掉，便于大家开发调试和部署（实际需要启动 MCP 服务）
+  # 修复：mcp 应在 spring 下，不能放在 spring.data 下
+  ai:
     mcp:
       client:
         stdio:
           servers-configuration: classpath:mcp-servers.json
-    #    sse:
-    #      connections:
-    #        server1:
-    #          url: http://localhost:8127
-# 临时注释掉，便于大家开发调试和部署（实际需要启动 PgVector 数据库）
-#    vectorstore:
-#      pgvector:
-#        index-type: HNSW
-#        dimensions: 1536
-#        distance-type: COSINE_DISTANCE
-#        max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+#    sse:
+#      connections:
+#        server1:
+#          url: http://localhost:8127
+#  vectorstore:
+#    pgvector:
+#      index-type: HNSW
+#      dimensions: 1536
+#      distance-type: COSINE_DISTANCE
+#      max-document-batch-size: 10000
+
 server:
   port: 8123
   servlet:
     context-path: /api
-# springdoc-openapi config
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -56,16 +57,16 @@ springdoc:
     - group: 'default'
       paths-to-match: '/**'
       packages-to-scan: com.yupi.yuaiagent.controller
-# knife4j config
+
 knife4j:
   enable: true
   setting:
     language: zh_cn
-# searchAPI
+
+# 从环境变量读取，启动时设置：export SEARCH_API_KEY=xxx
 search-api:
-  # 需要替换为你自己的 key
-  api-key: nUNmSD5AjBRifNZ3LdshUWxX
-# 修改日志级别，查看 Spring AI 更多调用细节
+  api-key: ${SEARCH_API_KEY}
+
 logging:
   level:
     org.springframework.ai: DEBUG
